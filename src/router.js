@@ -15,7 +15,8 @@ export default new VueRouter({
 
       },
       {
-        path: '/card',
+        path: '/product/:id',
+        name: 'Card',
         component: Card,
       }
     ]

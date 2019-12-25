@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import productList from './modules/productList'
 import productCard from './modules/productCard'
+import productList from './modules/ProductList'
 Vue.use(Vuex)
 
 

@@ -1,30 +1,27 @@
 <template>
- <loader v-if="isProductLoading"></loader>
-      <v-container v-else>
-    <productList :allProduct='allProducts'></productList>
+  <loader v-if="isLoading"></loader>
+  <v-container v-else>
+    <productList :allProduct="products"></productList>
   </v-container>
 </template>
 
 <script>
-
-import productList from '../components/productList'
-import loader from '../components/loader'
+import productList from "../components/productList";
+import loader from "../components/loader";
 import {mapGetters,mapActions} from 'vuex'
 export default {
-    components: {
+  components: {
     productList,
-    loader,
+    loader
   },
-  computed:  mapGetters(['allProducts','isProductLoading']),
-  methods: mapActions(['getProduct']),
-  mounted() {
-    setTimeout(()=> this.getProduct(),1000)
+  computed:  mapGetters(['products','isLoading']),
+  methods: mapActions(['getProducts']),
+ async mounted() {
+    await this.getProducts()
   
   },
 
-  name: 'App',
-  data: () => ({
  
-  }),
+  name: "Home"
 };
 </script>
