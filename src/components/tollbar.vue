@@ -1,40 +1,47 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-toolbar-title>Shopping Card</v-toolbar-title>
+    <v-toolbar class="toolbar">
+      <v-container>
+        <div class="toolbar__inner">
+          <v-toolbar-title>Shopping Card</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-      <v-toolbar-items>
-        <v-btn text>Link 1</v-btn>
-        <v-btn text>Link 2</v-btn>
-        <v-btn text>Link 3</v-btn>
-      </v-toolbar-items>
+          <v-toolbar-items> </v-toolbar-items>
 
-      <template v-if="$vuetify.breakpoint.smAndUp">
-        <v-btn icon>
-          <v-icon>mdi-export-variant</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-delete-circle</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-plus-circle</v-icon>
-        </v-btn>
-      </template>
+          <template v-if="$vuetify.breakpoint.smAndUp">
+            <router-link to="/basket">
+              <v-badge color="green" overlap>
+                <template v-slot:badge>
+                  <span v-if="product > 0">{{ product }}</span>
+                </template>
+
+                <v-icon large>mdi-cart</v-icon>
+              </v-badge>
+            </router-link>
+          </template>
+        </div>
+      </v-container>
     </v-toolbar>
   </div>
 </template>
 
 <script>
-
-
 export default {
-
- 
-
-  data: () => ({
- 
-  }),
+  data: () => ({}),
+  computed: {
+    product() {
+      return this.$store.getters.addProduct;
+    }
+  }
 };
 </script>
+
+<style lang="scss" scoped>
+.toolbar {
+  &__inner {
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

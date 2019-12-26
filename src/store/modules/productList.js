@@ -1,5 +1,4 @@
 import { db } from "@/main";
-
 export default {
   actions: {
     async getProducts(ctx) {
@@ -18,20 +17,31 @@ export default {
         });
 
       return ctx.commit("updateProductList", data);
+    },
+    addProduct({ commit }) {
+      return commit("updateBasket");
     }
   },
   mutations: {
     updateProductList(state, data) {
       state.allProducts = data;
       state.isLoading = false;
+    },
+    updateBasket(state) {
+      state.addProduct++;
     }
   },
   state: {
     allProducts: [],
-    isLoading: true
+    isLoading: true,
+    addProduct: 0
   },
   getters: {
     products: s => s.allProducts,
-    isLoading: s => s.isLoading
+    isLoading: s => s.isLoading,
+    getProduct: state => id => {
+      return state.allProducts.find(item => item.id == id);
+    },
+    addProduct: s => s.addProduct
   }
 };

@@ -8,20 +8,14 @@
 <script>
 import productList from "../components/productList";
 import loader from "../components/loader";
-import {mapGetters,mapActions} from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   components: {
     productList,
     loader
   },
-  computed:  mapGetters(['products','isLoading']),
-  methods: mapActions(['getProducts']),
- async mounted() {
-    await this.getProducts()
-  
-  },
+  computed: mapGetters(["products", "isLoading"]),
 
- 
   name: "Home"
 };
 </script>

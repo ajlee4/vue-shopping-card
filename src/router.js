@@ -1,23 +1,25 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Card from './views/Card'
-import Home from './views/Home'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 export default new VueRouter({
-    mode:'history',
+  mode: "history",
 
-    routes: [
-      {
-          path:'/',
-          component:Home,
-
-      },
-      {
-        path: '/product/:id',
-        name: 'Card',
-        component: Card,
-      }
-    ]
-})
+  routes: [
+    {
+      path: "/",
+      component: () => import("./views/Home.vue")
+    },
+    {
+      path: "/product/:id",
+      name: "Card",
+      component: () => import("./views/Card.vue")
+    },
+    {
+      path: "/basket",
+      name: "Basket",
+      component: () => import("./views/Basket.vue")
+    }
+  ]
+});
