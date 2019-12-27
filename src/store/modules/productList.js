@@ -18,8 +18,11 @@ export default {
 
       return ctx.commit("updateProductList", data);
     },
-    addProduct({ commit }) {
-      return commit("updateBasket");
+    async addProductToBasket({ commit }, { product, quantity, price }) {
+      return commit("updateBasket", { product, quantity, price });
+    },
+    removeProductToBasket({commit},product){
+      return commit("removeBasketItem", product);
     }
   },
   mutations: {
@@ -27,14 +30,33 @@ export default {
       state.allProducts = data;
       state.isLoading = false;
     },
-    updateBasket(state) {
-      state.addProduct++;
-    }
+    updateBasket(state, { product, quantity, price }) {
+      const record = state.basketProducts.find(
+        element => element.id == product.id
+      );
+      if (record) {
+        record.quantity += quantity;
+        record.totalPriceProduct += price;
+      } else {
+        state.addProduct++;
+        state.basketProducts.push(product);
+      }
+    },
+    removeBasketItem(state,product) {
+      const record = state.basketProducts.find(element => element.id == product.id);
+      state.basketProducts.splice(state.basketProducts.indexOf(record), 1);
+      state.addProduct--;
+    },
+  //   saveCart(state) {
+  //     window.localStorage.setItem('cart', JSON.stringify(state.basketProducts));
+  //     window.localStorage.setItem('cartCount', state.addProduct);
+  // }
   },
   state: {
     allProducts: [],
     isLoading: true,
-    addProduct: 0
+    addProduct: 0,
+    basketProducts: []
   },
   getters: {
     products: s => s.allProducts,
@@ -42,6 +64,7 @@ export default {
     getProduct: state => id => {
       return state.allProducts.find(item => item.id == id);
     },
-    addProduct: s => s.addProduct
+    addProduct: s => s.addProduct,
+    basketProducts: s => s.basketProducts
   }
 };

@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-alert type="success" :class="added ? 'show' : 'hide'">
+      Товар {{ product.title }} добавлен в корзину
+    </v-alert>
     <div class="product">
       <div class="product__info">
         <div class="product__info-left">
@@ -13,17 +16,17 @@
         </div>
         <div class="product__info-right">
           <h2 class="product__title">{{ product.title }}</h2>
-          <div class="price">{{ (product.price * quantity).toFixed(2) }}$</div>
+          <div class="price">{{ totalPrice }}$</div>
           <div class="quantity">
             <v-text-field
               type="number"
-              label="Quantity"
+              label="Количество"
               v-model="parseQuantity"
               min="1"
             ></v-text-field>
           </div>
           <div class="product__action">
-            <v-btn color="success" @click="addProduct"
+            <v-btn color="success" @click="addProduct()"
               >Добавить в корзину</v-btn
             >
           </div>
@@ -42,11 +45,15 @@
 export default {
   name: "Card",
   data: () => ({
-    quantity: 1
+    quantity: 1,
+    added: false
   }),
   computed: {
     product() {
       return this.$store.getters["getProduct"](this.$route.params.id);
+    },
+    totalPrice() {
+      return (this.product.price * this.quantity).toFixed(2);
     },
     parseQuantity: {
       get() {
@@ -58,8 +65,24 @@ export default {
     }
   },
   methods: {
-    addProduct() {
-      return this.$store.dispatch("addProduct");
+    async addProduct() {
+      const data = {
+        id: this.$route.params.id,
+        model: this.product.title,
+        img: this.product.thumbnail_url,
+        quantity: this.quantity,
+        totalPriceProduct: parseFloat(this.totalPrice)
+      };
+
+      this.added = true;
+      setTimeout(() => {
+        this.added = false;
+      }, 2000);
+      return await this.$store.dispatch("addProductToBasket", {
+        product: data,
+        quantity: parseInt(this.quantity),
+        price: parseFloat(this.totalPrice)
+      });
     }
   }
 };
@@ -102,5 +125,16 @@ export default {
 .price {
   font-size: 28px;
   line-height: 28px;
+}
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-50%);
+}
+.show {
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s;
+  transform: translateY(0%);
 }
 </style>
