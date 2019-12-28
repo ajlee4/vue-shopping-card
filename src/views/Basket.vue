@@ -11,29 +11,35 @@
             <th></th>
           </tr>
         </thead>
+     
         <tbody>
-          <transition name="fade">
-            <tr v-for="(product, index) in products" :key="index + Date.now()">
+            
+            <tr v-for="(product, index) in products" :key="index + Date.now()" class="list-complete-item ">
               <td>
-                <v-img
+         
+                  <v-img
                   :src="product.img"
                   aspect-ratio="1"
                   class="img"
                   max-width="100"
                   max-height="100"
                 ></v-img>
+        
               </td>
-              <td>{{ product.model }}</td>
+              <td >{{ product.model }}</td>
               <td>{{ product.totalPriceProduct.toFixed(2) }}</td>
               <td>{{ product.quantity }}</td>
               <td>
+                  
                 <v-btn color="error" fab @click="removeBasketItem(product)">
                   <v-icon class="delete">mdi-delete</v-icon>
                 </v-btn>
+                  
               </td>
             </tr>
-          </transition>
+            
         </tbody>
+          
       </template>
     </v-simple-table>
     <div class="result-field">Всего:{{ totalPrice }}$</div>
@@ -43,6 +49,7 @@
 <script>
 export default {
   name: "Basket",
+
   computed: {
     products() {
       return this.$store.getters["basketProducts"];
@@ -76,11 +83,4 @@ export default {
   padding-bottom: 20px;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
-  opacity: 0;
-}
 </style>

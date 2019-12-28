@@ -1,9 +1,16 @@
 <template>
- <div class="lds-ring"><div></div><div></div><div></div><div></div></div>   
+ <div class="loader">
+   <div class="lds-ring"><div></div><div></div><div></div><div></div></div> 
+   </div>  
 </template>
 
 
 <style lang="scss" scoped>
+.loader {
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+}
 .lds-ring {
   display: inline-block;
   position: relative;

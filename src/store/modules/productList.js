@@ -1,27 +1,34 @@
 import { db } from "@/main";
+let cart = window.localStorage.getItem('cart');
+let cartCount = window.localStorage.getItem('cartCount');
+
 export default {
+  
   actions: {
     async getProducts(ctx) {
-      const data = [];
-      await db
-        .collection("product")
-        .get()
-        .then(QuerySnapshot => {
-          QuerySnapshot.forEach(s => {
-            const productData = {
-              id: s.id,
-              ...s.data()
-            };
-            data.push(productData);
+      try {
+        const data = [];
+        await db
+          .collection("product")
+          .get()
+          .then(QuerySnapshot => {
+            QuerySnapshot.forEach(s => {
+              const productData = {
+                id: s.id,
+                ...s.data()
+              };
+              data.push(productData);
+            });
           });
-        });
-
-      return ctx.commit("updateProductList", data);
+        return ctx.commit("updateProductList", data);
+      } catch (e) {
+        console.error(e);
+      }
     },
     async addProductToBasket({ commit }, { product, quantity, price }) {
       return commit("updateBasket", { product, quantity, price });
     },
-    removeProductToBasket({commit},product){
+    removeProductToBasket({ commit }, product) {
       return commit("removeBasketItem", product);
     }
   },
@@ -38,25 +45,30 @@ export default {
         record.quantity += quantity;
         record.totalPriceProduct += price;
       } else {
-        state.addProduct++;
+        state.addProductToBasketCount++;
         state.basketProducts.push(product);
       }
+      this.commit('saveCart');
     },
-    removeBasketItem(state,product) {
-      const record = state.basketProducts.find(element => element.id == product.id);
+    removeBasketItem(state, product) {
+      const record = state.basketProducts.find(
+        element => element.id == product.id
+      );
       state.basketProducts.splice(state.basketProducts.indexOf(record), 1);
-      state.addProduct--;
+      state.addProductToBasketCount--;
+      this.commit('saveCart');
     },
-  //   saveCart(state) {
-  //     window.localStorage.setItem('cart', JSON.stringify(state.basketProducts));
-  //     window.localStorage.setItem('cartCount', state.addProduct);
-  // }
+      saveCart(state) {
+        window.localStorage.setItem('cart', JSON.stringify(state.basketProducts));
+        window.localStorage.setItem('cartCount', state.addProductToBasketCount);
+    }
   },
   state: {
     allProducts: [],
     isLoading: true,
-    addProduct: 0,
-    basketProducts: []
+   
+    addProductToBasketCount: cartCount ? parseInt(cartCount) : 0,
+    basketProducts: cart ? JSON.parse(cart): []
   },
   getters: {
     products: s => s.allProducts,
@@ -64,7 +76,7 @@ export default {
     getProduct: state => id => {
       return state.allProducts.find(item => item.id == id);
     },
-    addProduct: s => s.addProduct,
+    addProductToBasketCount: s => s.addProductToBasketCount,
     basketProducts: s => s.basketProducts
   }
 };

@@ -3,7 +3,9 @@
     <v-toolbar class="toolbar">
       <v-container>
         <div class="toolbar__inner">
-          <v-toolbar-title>Shopping Card</v-toolbar-title>
+         <router-link to='/'> 
+            <v-toolbar-title>Shopping Card</v-toolbar-title>
+         </router-link>
 
           <v-spacer></v-spacer>
 
@@ -31,17 +33,21 @@ export default {
   data: () => ({}),
   computed: {
     product() {
-      return this.$store.getters.addProduct;
+      return this.$store.getters.addProductToBasketCount;
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .toolbar {
   &__inner {
     display: flex;
     align-items: center;
   }
+}
+a {
+  color: black !important;
+  text-decoration: none;
 }
 </style>

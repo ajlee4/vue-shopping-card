@@ -1,21 +1,23 @@
 <template>
-  <v-app>
-    <toolbar></toolbar>
-    <router-view> </router-view>
-  </v-app>
+
+   <component :is="layout">
+      <router-view />
+    </component>
+
 </template>
 
 <script>
-import toolbar from "./components/tollbar";
-import { mapActions } from "vuex";
+import AuthLayout from "@/layouts/AuthLayout";
+import MainLayout from "@/layouts/MainLayout";
 export default {
-  components: {
-    toolbar
+   computed: {
+    layout() {
+      return (this.$route.meta.layout || "auth") + "-layout";
+    }
   },
-  methods: mapActions(["getProducts"]),
-  async mounted() {
-    await this.getProducts();
+  components: {
+    AuthLayout,
+    MainLayout
   }
-};
+}
 </script>
-<style lang="scss"></style>

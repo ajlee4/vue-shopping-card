@@ -8,6 +8,7 @@
 <script>
 import productList from "../components/productList";
 import loader from "../components/loader";
+
 import { mapGetters } from "vuex";
 export default {
   components: {
