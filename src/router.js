@@ -3,26 +3,26 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: "history",
 
   routes: [
     {
       path: "/",
       component: () => import("./views/Home.vue"),
-      meta: { layout: "main" },
+      meta: { layout: "main" ,auth:true },
     },
     {
       path: "/product/:id",
       name: "Card",
       component: () => import("./views/Card.vue"),
-      meta: { layout: "main" },
+      meta: { layout: "main",auth:true},
     },
     {
       path: "/basket",
       name: "Basket",
       component: () => import("./views/Basket.vue"),
-      meta: { layout: "main" },
+      meta: { layout: "main" ,auth:true},
     }, 
     {
       path:'/login',
@@ -38,3 +38,6 @@ export default new VueRouter({
     }
   ]
 });
+
+
+export default router

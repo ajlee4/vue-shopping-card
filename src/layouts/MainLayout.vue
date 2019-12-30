@@ -12,6 +12,7 @@ export default {
   components: {
     toolbar
   },
+  middleware:['auth'],
   methods: mapActions(["getProducts"]),
   async mounted() {
     await this.getProducts();

@@ -1,6 +1,12 @@
 export default {
   actions: {},
-  mutations: {},
-  state: {},
+  mutations: {
+    setUser(state,user) {
+      state.user=user
+    }
+  },
+  state: {
+    user:{}
+  },
   getters: {}
 };

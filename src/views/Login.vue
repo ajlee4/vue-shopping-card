@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 export default {
   data: () => ({
     valid: true,
@@ -57,9 +58,15 @@ export default {
   }),
 
   methods: {
+        ...mapMutations(['setUser']),
     validate() {
       if (this.$refs.form.validate()) {
-        this.snackbar = true;
+        const user = {
+          name:this.name,
+          email:this.email
+        }
+  this.setUser(user)
+        this.$router.push('/')
       }
     },
     reset() {
