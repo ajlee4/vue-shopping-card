@@ -7,6 +7,7 @@ import router from "./router";
 import { firestorePlugin } from "vuefire";
 
 import firebase from "firebase/app";
+import 'firebase/auth'
 import "firebase/firestore";
 
 Vue.use(firestorePlugin);
@@ -27,9 +28,17 @@ export const db = firebase.firestore();
 
 Vue.config.productionTip = false;
 
-new Vue({
-  vuetify,
-  store,
-  router,
-  render: h => h(App)
-}).$mount("#app");
+let app 
+
+firebase.auth().onAuthStateChanged(()=> {
+  if(!app) {
+    app = new Vue({
+      vuetify,
+      store,
+      router,
+      render: h => h(App)
+    }).$mount("#app");
+  }
+
+})
+

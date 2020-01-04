@@ -1,8 +1,8 @@
 <template>
- <v-app>
-       <toolbar></toolbar>
+  <v-app>
+    <toolbar></toolbar>
     <router-view> </router-view>
- </v-app>
+  </v-app>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
   components: {
     toolbar
   },
-  middleware:['auth'],
+  middleware: ["auth"],
   methods: mapActions(["getProducts"]),
   async mounted() {
     await this.getProducts();
